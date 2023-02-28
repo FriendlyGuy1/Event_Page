@@ -18,7 +18,7 @@ const eventSchema = mongoose.Schema(
             type: String, 
             required: [true, 'Please add a price Eur']
         },
-        author: {
+        user: {
             type: mongoose.Types.ObjectId,
             required: true,
             ref: 'User'
