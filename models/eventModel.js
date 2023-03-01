@@ -23,6 +23,10 @@ const eventSchema = mongoose.Schema(
             required: true,
             ref: 'User'
         },
+        approved: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         timestamps: true

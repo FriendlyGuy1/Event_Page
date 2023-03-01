@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 
 const Event = require('../models/eventModel');
 
-// @desc Get All events
+// @desc Get events with logged in user id
 // @route GET /api/events
 // @access PRIVATE
 
@@ -11,12 +11,12 @@ const getAllEvents = asyncHandler(async (req, res) => {
   res.status(200).json(events)
 })
 
-// @desc Get All events
-// @route GET /api/events
+// @desc As a Guest user check all events which are approved by an admin
+// @route GET /api/events/anon
 // @access Public
 
 const getEventsAnon = asyncHandler(async (req, res) => {
-  const events = await Event.find()
+  const events = await Event.find({ approved: true})
   res.status(200).json(events)
 })
 
@@ -60,6 +60,11 @@ const updateEvent = asyncHandler(async (req, res) => {
  if (event.user.toString() !== req.user.id && req.user.role !== "admin"){
     res.status(401);
     throw new Error("Not authorized");
+ }
+ // checks if user tries to change approval
+ if(req.body.approved && req.user.role !== "admin"){
+  res.status(401);
+  throw new Error("Not authorized");
  }
 
  // if admin or event creator can edit
