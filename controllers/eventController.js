@@ -11,6 +11,14 @@ const getAllEvents = asyncHandler(async (req, res) => {
   res.status(200).json(events)
 })
 
+// @desc Get All events
+// @route GET /api/events
+// @access Public
+
+const getEventsAnon = asyncHandler(async (req, res) => {
+  const events = await Event.find()
+  res.status(200).json(events)
+})
 
 // @desc Set event
 // @route POST /api/events
@@ -94,6 +102,7 @@ const deleteEvent = asyncHandler(async (req, res) => {
 
   module.exports = {
     getAllEvents,
+    getEventsAnon,
     setEvent,
     updateEvent,
     deleteEvent
