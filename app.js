@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/api/events', require('./routes/eventRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/categories', require('./routes/categoryRoutes'));
 
 app.use(errorHandler);
 
