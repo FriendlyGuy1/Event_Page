@@ -64,7 +64,7 @@ const updateEvent = asyncHandler(async (req, res) => {
  // checks if user tries to change approval
  if(req.body.approved && req.user.role !== "admin"){
   res.status(401);
-  throw new Error("Not authorized");
+  throw new Error("You can't change the approval");
  }
 
  // if admin or event creator can edit
@@ -105,10 +105,63 @@ const deleteEvent = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id })
 })
 
+// @desc admin approves the event
+// @route GET /api/events/approve/:id
+// @access PRIVATE
+
+const ApproveEvent = asyncHandler( async(req,res)=> {
+  const event = await Event.findById(req.params.id)
+
+  // checks if event exists
+  if (!event) {
+    res.status(400)
+    throw new Error('Event not found')
+  }
+
+  // makes the event approved
+  const updateEvent = await Event.findByIdAndUpdate(req.params.id,{
+    approved: true,
+    new: true
+  })
+
+  res.status(200).json(updateEvent)
+})
+
+
+// @desc admin unapproves the event
+// @route GET /api/events/unapprove/:id
+// @access PRIVATE
+
+const UnapproveEvent = asyncHandler( async(req,res)=> {
+  const event = await Event.findById(req.params.id)
+
+  // checks if event exists
+  if (!event) {
+    res.status(400)
+    throw new Error('Event not found')
+  }
+
+  // makes the event unapproved
+  const updateEvent = await Event.findByIdAndUpdate(req.params.id,{
+    approved: false,
+    new: true
+  })
+
+  res.status(200).json(updateEvent)
+})
+
+
+
+
+
+
+
   module.exports = {
     getAllEvents,
     getEventsAnon,
     setEvent,
+    ApproveEvent,
+    UnapproveEvent,
     updateEvent,
     deleteEvent
   }
