@@ -12,4 +12,4 @@ const catogorySchema = mongoose.Schema(
    }
 )
 
-module.exports = mongoose.model('Event', catogorySchema);
+module.exports = mongoose.model('Category', catogorySchema);

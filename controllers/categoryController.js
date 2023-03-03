@@ -23,7 +23,7 @@ const setCategory = asyncHandler(async (req, res) => {
     }
 
     const category = await Categories.create({
-        name: req.body.nane
+        name: req.body.name
     })
 
     res.status(200).json(category)
