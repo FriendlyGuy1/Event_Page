@@ -17,6 +17,12 @@ const getAllEvents = asyncHandler(async (req, res) => {
 
 const getEventsAnon = asyncHandler(async (req, res) => {
   const events = await Event.find({ approved: true})
+
+  if(events == ""){
+    res.status(400)
+    throw new Error("There are no events")
+  }
+
   res.status(200).json(events)
 })
 
